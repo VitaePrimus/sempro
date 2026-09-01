@@ -1,4 +1,4 @@
-/* ---------- Mobile navigation keeps links compact on narrow screens. ---------- */
+/* navigation — компактне меню для телефонів і вузьких екранів. */
 const menuToggle = document.querySelector(".menu-toggle");
 const siteNav = document.querySelector(".site-nav");
 
@@ -14,7 +14,7 @@ siteNav.querySelectorAll("a").forEach((link) => {
     });
 });
 
-/* ---------- Gallery controls scroll one card at a time and also support arrow keys. ---------- */
+/* ---------- GALLERY CONTROLS: mouse, touch scrolling, and keyboard arrows. ---------- */
 const gallery = document.querySelector("#project-gallery");
 const galleryStep = () => Math.min(gallery.clientWidth * 0.82, 470);
 
@@ -33,11 +33,11 @@ gallery.addEventListener("keydown", (event) => {
     }
 });
 
-/* ---------- County groups control the two service tiers displayed by the map. ---------- */
+/* !!! SERVICE COUNTIES !!! Edit these two lists when the coverage area changes. */
 const regularCounties = new Set(["Cuyahoga", "Lorain", "Medina", "Summit", "Lake", "Geauga"]);
 const caseCounties = new Set(["Erie", "Huron", "Ashland", "Wayne", "Portage", "Ashtabula"]);
 
-/* ---------- Map setup is guarded so the rest of the page still works if Leaflet fails. ---------- */
+/* МАПА: if Leaflet cannot load, the rest of the website must still work normally. */
 async function initializeServiceMap() {
     if (!window.L) return;
 
@@ -50,14 +50,14 @@ async function initializeServiceMap() {
         attributionControl: true,
     });
 
-    /* OpenStreetMap tiles provide roads and city context beneath exact county shapes. */
+    /* live OpenStreetMap tiles provide roads beneath our LOCAL county boundaries. */
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
         attribution: "&copy; OpenStreetMap contributors",
     }).addTo(map);
 
     try {
-        /* Local GeoJSON avoids the distorted circles used by the earlier map design. */
+        /* ЛОКАЛЬНИЙ GEOJSON — real county shapes, no fake service circles. */
         const response = await fetch("/contractor_website/static/data/northeast-ohio-counties.geojson");
         if (!response.ok) throw new Error(`County data returned ${response.status}`);
         const countyData = await response.json();
@@ -81,7 +81,7 @@ async function initializeServiceMap() {
             },
         }).addTo(map);
 
-        /* Fit the full service region with padding so county edges remain visible. */
+        /* == FIT VIEW == keep every active service county visible with breathing room. */
         const servicedFeatures = countyData.features.filter((feature) => {
             const name = feature.properties.NAME || feature.properties.name || "";
             return regularCounties.has(name) || caseCounties.has(name);
@@ -90,11 +90,11 @@ async function initializeServiceMap() {
         if (servicedFeatures.length) map.fitBounds(servicedLayer.getBounds(), { padding: [24, 24] });
         countyLayer.bringToFront();
     } catch (error) {
-        /* A console message helps development without exposing technical errors to visitors. */
+        /* developer note only; не показуємо технічну помилку відвідувачам. */
         console.warn("Service-area boundaries could not be loaded.", error);
     }
 
-    /* A branded marker identifies Parma as the base of operations. */
+    /* PARMA BASE MARKER ★ coordinates can be changed if the base moves. */
     const parmaIcon = L.divIcon({ className: "parma-marker", html: "SP", iconSize: [38, 38], iconAnchor: [19, 19] });
     L.marker([41.4048, -81.7229], { icon: parmaIcon }).addTo(map).bindPopup("<strong>Sem Pro Remodeling</strong><br>Based in Parma, Ohio");
 
@@ -104,5 +104,5 @@ async function initializeServiceMap() {
 
 initializeServiceMap();
 
-/* ---------- The copyright year updates automatically without manual maintenance. ---------- */
+/* рік у copyright оновлюється АВТОМАТИЧНО from the visitor's device clock. */
 document.querySelector("#current-year").textContent = new Date().getFullYear();

@@ -31,7 +31,7 @@
     </header>
 
     <main>
-        <!-- The hero uses a real Sem Pro project photo and a local value proposition. -->
+        <!-- HERO / ГОЛОВНИЙ ЕКРАН: replace this image or headline to change the first impression. -->
         <section class="hero" aria-labelledby="hero-title">
             <img class="hero-media" src="{{ url_for('static', path='/images/sem-pro/project-05.jpg') }}" alt="Freshly painted white garage completed by Sem Pro Remodeling">
             <div class="hero-scrim" aria-hidden="true"></div>
@@ -75,7 +75,8 @@
             <p class="media-note">Photos are from the business’s public Facebook page and used with the site owner’s permission.</p>
         </section>
 
-        <!-- A public Facebook reel brings actual on-the-job motion into the site. -->
+        <!-- FACEBOOK REEL !!! This is a selected reel, not an automatic "latest reel" feed. -->
+        <!-- Щоб змінити відео, replace the encoded reel URL inside the iframe src below. -->
         <section class="video-band" aria-labelledby="video-title">
             <div class="video-copy"><p class="eyebrow light">See the work in motion</p><h2 id="video-title">Follow the projects, not just the finished photo.</h2><p>Sem shares active jobs, renovation progress, and practical details from homes around Greater Cleveland.</p><a class="button button-light" href="https://www.facebook.com/SemMolo7991/reels/" target="_blank" rel="noopener">Watch more on Facebook</a></div>
             <div class="video-frame"><iframe title="Sem Pro Remodeling Facebook project video" src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1792479775500250%2F&amp;show_text=false&amp;width=500" width="500" height="560" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe></div>
@@ -94,13 +95,13 @@
             </div>
         </section>
 
-        <!-- The owner section adds a real face and lightly stated experience story. -->
+        <!-- Про власника: photo and biography are intentionally editable HTML content. -->
         <section class="about-section" id="about" aria-labelledby="about-title">
             <div class="about-photo-wrap"><img src="{{ url_for('static', path='/images/sem-pro/sem-molo-owner.jpg') }}" alt="Sem Molo, owner of Sem Pro Remodeling"><div class="ukraine-ribbon" aria-label="Ukrainian roots"><span></span><span></span></div></div>
             <div class="about-copy"><p class="eyebrow">Meet the owner</p><h2 id="about-title">Sem Molo</h2><p class="about-lede">A licensed contractor with a practical eye, hands-on experience, and a simple standard: understand the problem, do the work carefully, and leave the space better than you found it.</p><p>Sem brings about a decade of overall remodeling experience, including two years serving homeowners in the United States. Based in Parma, he works throughout Cleveland and nearby communities.</p><div class="about-tags" aria-label="About Sem Pro Remodeling"><span>Licensed contractor</span><span>Ukrainian roots</span><span>Owner-operated</span></div></div>
         </section>
 
-        <!-- The map uses county boundaries and a clear two-tier service legend. -->
+        <!-- MAP / МАПА: county membership is controlled in static/js/app.js. -->
         <section class="section coverage-section" id="coverage" aria-labelledby="coverage-title">
             <div class="section-heading"><div><p class="eyebrow">Based in Parma, Ohio</p><h2 id="coverage-title">Serving Greater Cleveland.</h2></div><p>Core counties are served regularly. Projects farther out are considered case by case based on scope and schedule.</p></div>
             <div class="coverage-layout">
@@ -116,13 +117,13 @@
         </section>
     </main>
 
-    <!-- The footer repeats identity, contact, and copyright information. -->
+    <!-- FOOTER — keep the phone, Facebook link, and business name consistent with the header. -->
     <footer class="site-footer">
         <a class="brand footer-brand" href="#top"><span class="brand-mark">SP</span><span class="brand-copy"><strong>SEM PRO</strong><small>REMODELING</small></span></a>
         <p>Licensed contractor · Parma, Ohio · Serving Greater Cleveland</p><div><a href="tel:+12163850883">(216) 385-0883</a><a href="https://www.facebook.com/SemMolo7991/" target="_blank" rel="noopener">Facebook</a></div><small>© <span id="current-year"></span> Sem Pro Remodeling. All rights reserved.</small>
     </footer>
 
-    <!-- Scripts are placed last so visible content loads first. -->
+    <!-- !!! SCRIPTS LOAD LAST so visible content renders before interactive behavior. -->
     <script src="{{ url_for('static', path='/js/leaflet.js') }}"></script>
     <script src="{{ url_for('static', path='/js/app.js') }}"></script>
 </body>

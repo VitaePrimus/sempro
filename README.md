@@ -2,6 +2,8 @@
 
 Responsive business website for Sem Pro Remodeling, a licensed contractor based in Parma and serving Greater Cleveland. The site uses FastAPI, Jinja templates, semantic HTML, modern CSS, lightweight JavaScript, and Leaflet county mapping.
 
+For the complete setup, deployment, file reference, editing guide, Facebook dynamic/static explanation, and troubleshooting instructions, see [DOCUMENTATION.md](DOCUMENTATION.md).
+
 ## Included
 
 - Real Sem Pro project images and owner portrait used with permission

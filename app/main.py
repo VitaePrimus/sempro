@@ -12,20 +12,20 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 
-# Resolve folders from this module so startup works from any terminal location.
+# paths stay anchored to this file — запуск працює з будь-якої папки.
 BASE_DIR = Path(__file__).resolve().parent
 
-# Create the application with accurate metadata for future deployment tooling.
+# === FASTAPI APPLICATION METADATA ===
 app = FastAPI(
     title="Sem Pro Remodeling",
     description="Home renovation and contractor services across Greater Cleveland.",
     version="2.0.0",
 )
 
-# Expose browser assets beneath the branded route requested for the project URL.
+# ВАЖЛИВО: CSS, JS, photos, and map data are published under this exact prefix.
 app.mount("/contractor_website/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 
-# Configure the server-rendered template directory.
+# jinja templates live separately from the Python routing logic.
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 
@@ -33,6 +33,7 @@ templates = Jinja2Templates(directory=BASE_DIR / "templates")
 async def root_redirect() -> RedirectResponse:
     """Redirect visitors so contractor_website remains visible in the URL."""
 
+    # !!! KEEP THIS IN SYNC with the public page route immediately below.
     return RedirectResponse(url="/contractor_website", status_code=307)
 
 
@@ -47,4 +48,5 @@ async def contractor_website(request: Request) -> HTMLResponse:
 async def health_check() -> dict[str, str]:
     """Return a small status payload for local checks and future hosting."""
 
+    # Render can check this lightweight response without loading the full page.
     return {"status": "healthy", "service": "sem_pro_remodeling"}
