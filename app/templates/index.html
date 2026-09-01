@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Core metadata helps browsers and search engines understand the page. -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Sem Pro Remodeling provides painting, kitchens, bathrooms, flooring, drywall, and home renovation services across Greater Cleveland.">
+    <title>Sem Pro Remodeling | Cleveland Home Renovation</title>
+    <!-- Local styles keep the site fast; Leaflet powers the service map. -->
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/leaflet.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+</head>
+<body>
+    <!-- The utility bar puts trust and contact details first. -->
+    <div class="utility-bar">
+        <p><span class="status-dot" aria-hidden="true"></span> Licensed contractor · Cleveland &amp; surrounding areas</p>
+        <a href="tel:+12163850883">Call (216) 385-0883</a>
+    </div>
+
+    <!-- The sticky header provides quick navigation on desktop and mobile. -->
+    <header class="site-header" id="top">
+        <a class="brand" href="#top" aria-label="Sem Pro Remodeling home">
+            <span class="brand-mark" aria-hidden="true">SP</span>
+            <span class="brand-copy"><strong>SEM PRO</strong><small>REMODELING</small></span>
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+        <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+            <a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a><a href="#coverage">Coverage</a>
+            <a class="header-call" href="tel:+12163850883">Get an estimate</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- The hero uses a real Sem Pro project photo and a local value proposition. -->
+        <section class="hero" aria-labelledby="hero-title">
+            <img class="hero-media" src="{{ url_for('static', path='/images/sem-pro/project-05.jpg') }}" alt="Freshly painted white garage completed by Sem Pro Remodeling">
+            <div class="hero-scrim" aria-hidden="true"></div>
+            <div class="hero-content">
+                <p class="eyebrow light">Home renovation by Sem Molo</p>
+                <h1 id="hero-title">Good work shows.<br><span>Great work lasts.</span></h1>
+                <p class="hero-lede">Painting, remodeling, and repairs handled with care—from the first walkthrough to the clean final detail.</p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="tel:+12163850883">Call for an estimate</a>
+                    <a class="button button-ghost" href="#work">See recent work</a>
+                </div>
+            </div>
+            <div class="hero-proof" aria-label="Business highlights">
+                <div><strong>Licensed</strong><span>Contractor</span></div>
+                <div><strong>10 years</strong><span>Overall experience</span></div>
+                <div><strong>100%</strong><span>Recommend on Facebook</span></div>
+            </div>
+        </section>
+
+        <!-- This row reflects public information visible on the Facebook profile. -->
+        <section class="trust-row" aria-label="Facebook business highlights">
+            <p><strong>9.9K</strong> Facebook followers</p><p><strong>11</strong> recommendation reviews</p><p><strong>Parma</strong> home base</p>
+            <a href="https://www.facebook.com/SemMolo7991/" target="_blank" rel="noopener">View the Facebook page <span aria-hidden="true">↗</span></a>
+        </section>
+
+        <!-- Authentic Facebook photos replace the old mismatched before/after comparison. -->
+        <section class="section work-section" id="work" aria-labelledby="work-title">
+            <div class="section-heading"><div><p class="eyebrow">From Sem Pro job sites</p><h2 id="work-title">Recent work. Real details.</h2></div><p>Project photos from the Sem Pro Remodeling Facebook page—painting, finish work, repairs, and the important work behind the wall.</p></div>
+            <div class="gallery-shell">
+                <button class="gallery-arrow prev" id="gallery-prev" type="button" aria-label="Show previous project">←</button>
+                <div class="project-gallery" id="project-gallery" tabindex="0" aria-label="Recent project gallery">
+                    <figure class="project-card featured"><img src="{{ url_for('static', path='/images/sem-pro/project-05.jpg') }}" alt="White garage exterior with crisp black door after painting work"><figcaption><span>Exterior painting</span><strong>Clean lines. Sharp contrast.</strong></figcaption></figure>
+                    <figure class="project-card"><img src="{{ url_for('static', path='/images/sem-pro/project-06.jpg') }}" alt="Freshly painted tan building exterior"><figcaption><span>Exterior finish</span><strong>Careful coverage and detail.</strong></figcaption></figure>
+                    <figure class="project-card"><img src="{{ url_for('static', path='/images/sem-pro/project-08.jpg') }}" alt="Detailed painted entrance trim on a brick home"><figcaption><span>Finish painting</span><strong>Character restored.</strong></figcaption></figure>
+                    <figure class="project-card"><img src="{{ url_for('static', path='/images/sem-pro/project-09.jpg') }}" alt="Close detail of refreshed decorative doorway trim"><figcaption><span>Precision work</span><strong>The details make the project.</strong></figcaption></figure>
+                    <figure class="project-card"><img src="{{ url_for('static', path='/images/sem-pro/project-11.jpg') }}" alt="Bathroom wall opened for a professional repair"><figcaption><span>Bathroom repair</span><strong>Problems handled at the source.</strong></figcaption></figure>
+                    <figure class="project-card"><img src="{{ url_for('static', path='/images/sem-pro/project-12.jpg') }}" alt="Open bathroom wall showing plumbing repair work"><figcaption><span>Behind the finish</span><strong>Built right before it is covered.</strong></figcaption></figure>
+                </div>
+                <button class="gallery-arrow next" id="gallery-next" type="button" aria-label="Show next project">→</button>
+            </div>
+            <p class="media-note">Photos are from the business’s public Facebook page and used with the site owner’s permission.</p>
+        </section>
+
+        <!-- A public Facebook reel brings actual on-the-job motion into the site. -->
+        <section class="video-band" aria-labelledby="video-title">
+            <div class="video-copy"><p class="eyebrow light">See the work in motion</p><h2 id="video-title">Follow the projects, not just the finished photo.</h2><p>Sem shares active jobs, renovation progress, and practical details from homes around Greater Cleveland.</p><a class="button button-light" href="https://www.facebook.com/SemMolo7991/reels/" target="_blank" rel="noopener">Watch more on Facebook</a></div>
+            <div class="video-frame"><iframe title="Sem Pro Remodeling Facebook project video" src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1792479775500250%2F&amp;show_text=false&amp;width=500" width="500" height="560" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe></div>
+        </section>
+
+        <!-- Service cards summarize work listed on the business Facebook page. -->
+        <section class="section services-section" id="services" aria-labelledby="services-title">
+            <div class="section-heading"><div><p class="eyebrow">What Sem Pro does</p><h2 id="services-title">One contractor. More of the project covered.</h2></div><p>From a focused repair to a room-wide renovation, every job starts with a clear look at what the home actually needs.</p></div>
+            <div class="services-grid">
+                <article class="service-card"><span>01</span><h3>Interior &amp; exterior painting</h3><p>Preparation, repairs, crisp edges, and durable finishes for rooms, trim, siding, and exterior details.</p></article>
+                <article class="service-card"><span>02</span><h3>Bathrooms &amp; kitchens</h3><p>Cosmetic updates and larger remodels, including tile, finish work, fixture coordination, and wall repair.</p></article>
+                <article class="service-card"><span>03</span><h3>Flooring &amp; tile</h3><p>Careful layout and installation for practical, polished floors and tiled surfaces built for daily use.</p></article>
+                <article class="service-card"><span>04</span><h3>Drywall &amp; repairs</h3><p>Open, diagnose, repair, close, and finish—so the cause is addressed and the surface looks complete.</p></article>
+                <article class="service-card"><span>05</span><h3>Basement remodeling</h3><p>Turn unfinished or underused lower levels into clean, comfortable, useful living space.</p></article>
+                <article class="service-card"><span>06</span><h3>Decks, doors &amp; finish work</h3><p>Targeted carpentry, repairs, installation, and final details that complete the renovation.</p></article>
+            </div>
+        </section>
+
+        <!-- The owner section adds a real face and lightly stated experience story. -->
+        <section class="about-section" id="about" aria-labelledby="about-title">
+            <div class="about-photo-wrap"><img src="{{ url_for('static', path='/images/sem-pro/sem-molo-owner.jpg') }}" alt="Sem Molo, owner of Sem Pro Remodeling"><div class="ukraine-ribbon" aria-label="Ukrainian roots"><span></span><span></span></div></div>
+            <div class="about-copy"><p class="eyebrow">Meet the owner</p><h2 id="about-title">Sem Molo</h2><p class="about-lede">A licensed contractor with a practical eye, hands-on experience, and a simple standard: understand the problem, do the work carefully, and leave the space better than you found it.</p><p>Sem brings about a decade of overall remodeling experience, including two years serving homeowners in the United States. Based in Parma, he works throughout Cleveland and nearby communities.</p><div class="about-tags" aria-label="About Sem Pro Remodeling"><span>Licensed contractor</span><span>Ukrainian roots</span><span>Owner-operated</span></div></div>
+        </section>
+
+        <!-- The map uses county boundaries and a clear two-tier service legend. -->
+        <section class="section coverage-section" id="coverage" aria-labelledby="coverage-title">
+            <div class="section-heading"><div><p class="eyebrow">Based in Parma, Ohio</p><h2 id="coverage-title">Serving Greater Cleveland.</h2></div><p>Core counties are served regularly. Projects farther out are considered case by case based on scope and schedule.</p></div>
+            <div class="coverage-layout">
+                <div class="map-card"><div id="service-map" role="img" aria-label="Map of Sem Pro Remodeling service counties around Cleveland"></div><div class="map-legend" aria-label="Map legend"><span><i class="legend-core"></i> Regular service</span><span><i class="legend-case"></i> Case by case</span></div></div>
+                <aside class="coverage-copy"><p class="mini-label">Regular service</p><h3>Cuyahoga and nearby counties</h3><ul><li>Cuyahoga</li><li>Lorain</li><li>Medina</li><li>Summit</li><li>Lake</li><li>Geauga</li></ul><p class="mini-label case">Case by case</p><p>Erie, Huron, Ashland, Wayne, Portage, and Ashtabula counties.</p><a href="tel:+12163850883">Not sure? Call Sem →</a></aside>
+            </div>
+        </section>
+
+        <!-- The closing call to action makes the next step simple. -->
+        <section class="contact-section" id="contact" aria-labelledby="contact-title">
+            <div><p class="eyebrow light">Have a project in mind?</p><h2 id="contact-title">Let’s take a look.</h2><p>Call or message with your location, a short description, and a few photos of the space.</p></div>
+            <div class="contact-actions"><a class="contact-phone" href="tel:+12163850883"><small>Call Sem Pro</small>(216) 385-0883</a><a class="button button-light" href="https://www.facebook.com/SemMolo7991/" target="_blank" rel="noopener">Message on Facebook</a></div>
+        </section>
+    </main>
+
+    <!-- The footer repeats identity, contact, and copyright information. -->
+    <footer class="site-footer">
+        <a class="brand footer-brand" href="#top"><span class="brand-mark">SP</span><span class="brand-copy"><strong>SEM PRO</strong><small>REMODELING</small></span></a>
+        <p>Licensed contractor · Parma, Ohio · Serving Greater Cleveland</p><div><a href="tel:+12163850883">(216) 385-0883</a><a href="https://www.facebook.com/SemMolo7991/" target="_blank" rel="noopener">Facebook</a></div><small>© <span id="current-year"></span> Sem Pro Remodeling. All rights reserved.</small>
+    </footer>
+
+    <!-- Scripts are placed last so visible content loads first. -->
+    <script src="{{ url_for('static', path='/js/leaflet.js') }}"></script>
+    <script src="{{ url_for('static', path='/js/app.js') }}"></script>
+</body>
+</html>
