@@ -1,2 +1,1 @@
-"""Summit & Stone contractor website application package."""
-
+"""M&S CORNERSTONE website package."""

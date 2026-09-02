@@ -2,9 +2,12 @@
 __pycache__/
 *.py[cod]
 .venv/
+.cache/
+.env
+.env.*
+!.env.example
 
 # Local editor and operating-system metadata
 .vscode/
 .DS_Store
 Thumbs.db
-

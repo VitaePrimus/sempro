@@ -1,11 +1,11 @@
 services:
-  # RENDER BLUEPRINT — збірка та запуск FastAPI website.
+  # --- Render setup --- keep the existing service name so we don't create another site.
   - type: web
     name: sempro
     runtime: python
     plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
-    # !!! HEALTH CHECK MUST RETURN HTTP 200 !!!
+    # tiny health check; no need to load photos just to see if Python is up.
     healthCheckPath: /api/health
     autoDeploy: true

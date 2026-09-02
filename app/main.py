@@ -1,8 +1,4 @@
-"""FastAPI entry point for the Sem Pro Remodeling website.
-
-FastAPI provides a professional, typed Python foundation while Jinja renders
-the landing page and StaticFiles serves local media, map data, CSS, and JS.
-"""
+"""Small Python server for M&S CORNERSTONE. Content still lives in HTML."""
 
 from pathlib import Path
 
@@ -10,22 +6,23 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from app.facebook_stats import get_facebook_stats, saved_stats
 
 
-# paths stay anchored to this file — запуск працює з будь-якої папки.
+# --- folders / шляхи ---
 BASE_DIR = Path(__file__).resolve().parent
 
-# === FASTAPI APPLICATION METADATA ===
+# name here is for the API docs; the page title lives in index.html.
 app = FastAPI(
-    title="Sem Pro Remodeling",
+    title="M&S CORNERSTONE",
     description="Home renovation and contractor services across Greater Cleveland.",
     version="2.0.0",
 )
 
-# ВАЖЛИВО: CSS, JS, photos, and map data are published under this exact prefix.
+# leave this URL alone unless we're also updating the map's fetch path.
 app.mount("/contractor_website/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 
-# jinja templates live separately from the Python routing logic.
+# --- page routes ---
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 
@@ -33,20 +30,28 @@ templates = Jinja2Templates(directory=BASE_DIR / "templates")
 async def root_redirect() -> RedirectResponse:
     """Redirect visitors so contractor_website remains visible in the URL."""
 
-    # !!! KEEP THIS IN SYNC with the public page route immediately below.
+    # той самий URL, що й нижче — keep old bookmarks working.
     return RedirectResponse(url="/contractor_website", status_code=307)
 
 
 @app.get("/contractor_website", response_class=HTMLResponse, name="home")
 async def contractor_website(request: Request) -> HTMLResponse:
-    """Render the public Sem Pro Remodeling landing page."""
+    """Show the page straight away, even if Facebook is unavailable."""
 
-    return templates.TemplateResponse(request=request, name="index.html")
+    return templates.TemplateResponse(
+        request=request, name="index.html", context={"facebook_stats": saved_stats()}
+    )
+
+
+@app.get("/api/facebook-stats", tags=["public"])
+def facebook_stats() -> dict:
+    # FastAPI runs this sync route in a thread; a slow Facebook call won't block the site.
+    return get_facebook_stats()
 
 
 @app.get("/api/health", tags=["system"])
 async def health_check() -> dict[str, str]:
     """Return a small status payload for local checks and future hosting."""
 
-    # Render can check this lightweight response without loading the full page.
-    return {"status": "healthy", "service": "sem_pro_remodeling"}
+    # tiny ping for Render, nothing fancy.
+    return {"status": "healthy", "service": "ms_cornerstone"}

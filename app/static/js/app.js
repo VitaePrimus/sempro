@@ -1,6 +1,17 @@
-/* navigation — компактне меню для телефонів і вузьких екранів. */
+/* --- menu / меню --- */
 const menuToggle = document.querySelector(".menu-toggle");
 const siteNav = document.querySelector(".site-nav");
+
+// The header is sticky, so scroll the page itself instead of targeting the header.
+document.querySelectorAll('.brand[href="#top"]').forEach((brand) => {
+    brand.addEventListener("click", (event) => {
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+        siteNav.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        history.replaceState(null, "", "#top");
+    });
+});
 
 menuToggle.addEventListener("click", () => {
     const isOpen = siteNav.classList.toggle("open");
@@ -14,7 +25,7 @@ siteNav.querySelectorAll("a").forEach((link) => {
     });
 });
 
-/* ---------- GALLERY CONTROLS: mouse, touch scrolling, and keyboard arrows. ---------- */
+/* --- gallery --- keep touch scrolling native; the buttons just move it along. */
 const gallery = document.querySelector("#project-gallery");
 const galleryStep = () => Math.min(gallery.clientWidth * 0.82, 470);
 
@@ -33,11 +44,11 @@ gallery.addEventListener("keydown", (event) => {
     }
 });
 
-/* !!! SERVICE COUNTIES !!! Edit these two lists when the coverage area changes. */
+/* --- coverage --- update the written lists in index.html too. */
 const regularCounties = new Set(["Cuyahoga", "Lorain", "Medina", "Summit", "Lake", "Geauga"]);
 const caseCounties = new Set(["Erie", "Huron", "Ashland", "Wayne", "Portage", "Ashtabula"]);
 
-/* МАПА: if Leaflet cannot load, the rest of the website must still work normally. */
+/* map missing? no reason to break the rest of the page. */
 async function initializeServiceMap() {
     if (!window.L) return;
 
@@ -50,14 +61,14 @@ async function initializeServiceMap() {
         attributionControl: true,
     });
 
-    /* live OpenStreetMap tiles provide roads beneath our LOCAL county boundaries. */
+    // roads come from OSM; the county outlines are our local file.
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
         attribution: "&copy; OpenStreetMap contributors",
     }).addTo(map);
 
     try {
-        /* ЛОКАЛЬНИЙ GEOJSON — real county shapes, no fake service circles. */
+        // тут справжні межі округів — not a hand-drawn circle.
         const response = await fetch("/contractor_website/static/data/northeast-ohio-counties.geojson");
         if (!response.ok) throw new Error(`County data returned ${response.status}`);
         const countyData = await response.json();
@@ -81,7 +92,7 @@ async function initializeServiceMap() {
             },
         }).addTo(map);
 
-        /* == FIT VIEW == keep every active service county visible with breathing room. */
+        // fit the counties we're actually serving.
         const servicedFeatures = countyData.features.filter((feature) => {
             const name = feature.properties.NAME || feature.properties.name || "";
             return regularCounties.has(name) || caseCounties.has(name);
@@ -90,19 +101,72 @@ async function initializeServiceMap() {
         if (servicedFeatures.length) map.fitBounds(servicedLayer.getBounds(), { padding: [24, 24] });
         countyLayer.bringToFront();
     } catch (error) {
-        /* developer note only; не показуємо технічну помилку відвідувачам. */
+        // leave a clue in the console, not a big error on the page.
         console.warn("Service-area boundaries could not be loaded.", error);
     }
 
-    /* PARMA BASE MARKER ★ coordinates can be changed if the base moves. */
-    const parmaIcon = L.divIcon({ className: "parma-marker", html: "SP", iconSize: [38, 38], iconAnchor: [19, 19] });
-    L.marker([41.4048, -81.7229], { icon: parmaIcon }).addTo(map).bindPopup("<strong>Sem Pro Remodeling</strong><br>Based in Parma, Ohio");
+    // --- our home base --- city-level location, not a private street address.
+    const parmaIcon = L.divIcon({
+        className: "parma-marker",
+        html: '<span class="marker-m">M</span><span class="marker-as">&amp;S</span>',
+        iconSize: [76, 48], iconAnchor: [38, 24], popupAnchor: [0, -24],
+    });
+    L.marker([41.4048, -81.7229], { icon: parmaIcon, alt: "M&S CORNERSTONE — Parma", title: "M&S CORNERSTONE" }).addTo(map).bindPopup("<strong>M&amp;S CORNERSTONE</strong><br>Based in Parma, Ohio");
 
-    /* Recalculating after layout prevents partial gray tiles in responsive containers. */
+    // give layout a moment, then ask Leaflet to measure again.
     window.setTimeout(() => map.invalidateSize(), 180);
 }
 
 initializeServiceMap();
 
-/* рік у copyright оновлюється АВТОМАТИЧНО from the visitor's device clock. */
+/* --- copyright --- one less thing to edit every January. */
 document.querySelector("#current-year").textContent = new Date().getFullYear();
+
+/* --- reel sizing --- tell Facebook the real container size, not just CSS width. */
+const reelFrame = document.querySelector(".video-frame iframe");
+if (reelFrame && window.ResizeObserver) {
+    let resizeTimer;
+    const observer = new ResizeObserver(() => {
+        clearTimeout(resizeTimer); // don't reload the iframe on every pixel of a resize.
+        resizeTimer = setTimeout(() => {
+            const width = Math.round(reelFrame.parentElement.clientWidth);
+            if (width < 180) return;
+            const height = Math.round(width * 16 / 9);
+            const url = new URL(reelFrame.src);
+            if (Number(url.searchParams.get("width")) === width) return;
+            url.searchParams.set("width", String(width));
+            url.searchParams.set("height", String(height));
+            reelFrame.width = String(width);
+            reelFrame.height = String(height);
+            reelFrame.src = url.toString();
+        }, 250);
+    });
+    observer.observe(reelFrame.parentElement);
+}
+
+/* --- Facebook stats --- failure means "keep what we have", never show zero. */
+async function refreshFacebookStats() {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000);
+    try {
+        const response = await fetch("/api/facebook-stats", { signal: controller.signal, cache: "no-store" });
+        if (!response.ok) return;
+        const stats = await response.json();
+        for (const key of ["followers", "reviews"]) {
+            if (Number.isSafeInteger(stats[key]) && stats[key] >= 0) {
+                document.querySelector(`#facebook-${key}`).textContent = stats[key].toLocaleString("en-US");
+            }
+        }
+        // Recommendation percentage stays a saved snapshot; stars aren't percentages.
+        if (Array.isArray(stats.live_fields) && stats.live_fields.length) {
+            const fields = stats.live_fields.filter((key) => ["followers", "reviews"].includes(key)).join(" and ");
+            if (fields) document.querySelector("#facebook-stats-note").textContent =
+                `Facebook ${fields} refreshed within the last six hours. Recommendation percentage is the last recorded figure.`;
+        }
+    } catch {
+        // offline, blocked, or timeout — the server-rendered snapshot stays put.
+    } finally {
+        clearTimeout(timer);
+    }
+}
+refreshFacebookStats();
