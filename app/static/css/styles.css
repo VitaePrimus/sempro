@@ -120,7 +120,7 @@ h2 { margin-bottom: 0; font-size: clamp(2.5rem, 5vw, 5rem); line-height: .96; te
 /* ---------- Owner biography pairs a verified portrait with restrained experience copy. ---------- */
 .about-section { display: grid; grid-template-columns: minmax(320px, .75fr) minmax(0, 1fr); gap: clamp(50px, 10vw, 150px); align-items: center; padding: clamp(90px, 12vw, 170px) clamp(24px, 11vw, 175px); }
 .about-photo-wrap { position: relative; max-width: 560px; }
-.about-photo-wrap img { width: 100%; aspect-ratio: 1; border-radius: 45% 45% 16% 45%; object-fit: cover; box-shadow: var(--shadow); }
+.about-photo-wrap img { width: 100%; aspect-ratio: 1.5; border-radius: 25% 25% 25% 25%; object-fit: cover; /*box-shadow: var(--shadow);*/ }
 .ukraine-ribbon { position: absolute; right: -16px; bottom: 30px; width: 110px; overflow: hidden; border: 8px solid white; border-radius: 16px; box-shadow: 0 10px 35px rgba(0,0,0,.14); }
 .ukraine-ribbon span { display: block; height: 22px; background: var(--blue); }
 .ukraine-ribbon span + span { background: var(--yellow); }
